@@ -33,6 +33,7 @@ import {
 	MODEL_PICKER_PROTOCOL_VERSION,
 	normalizeSessionTitle,
 	ONBOARDING_PROTOCOL_VERSION,
+	PI_PACKAGES_PROTOCOL_VERSION,
 	PLAN_REVIEW_SUBAGENT_PROTOCOL_VERSION,
 	PLAN_SUMMARY_GENERATION_PROTOCOL_VERSION,
 	PROJECT_RENAME_PROTOCOL_VERSION,
@@ -279,6 +280,20 @@ test("review details and the GitHub review actions are pinned to v88", () => {
 	expect(WS_METHODS.workspaceDeleteRemoteBranch).toBe("workspace.deleteRemoteBranch");
 });
 
+test("pi package management and the package switch are pinned to v99", () => {
+	expect(PROTOCOL_VERSION).toBe(99);
+	expect(PI_PACKAGES_PROTOCOL_VERSION).toBe(99);
+	expect(WS_METHODS.packagesList).toBe("packages.list");
+	expect(WS_METHODS.packagesInstall).toBe("packages.install");
+	expect(WS_METHODS.packagesRemove).toBe("packages.remove");
+	expect(WS_METHODS.packagesUpdate).toBe("packages.update");
+	expect(WS_METHODS.packagesCheckUpdates).toBe("packages.checkUpdates");
+	expect(WS_METHODS.packagesSetResourceEnabled).toBe("packages.setResourceEnabled");
+	expect(WS_METHODS.packagesReveal).toBe("packages.reveal");
+	expect(WS_CHANNELS.packagesChanged).toBe("packages.changed");
+	expect(DEFAULT_CONFIG.disabledPackages).toEqual([]);
+});
+
 test("project create and the onboarding dismissal are pinned to v94", () => {
 	expect(PROTOCOL_VERSION).toBeGreaterThanOrEqual(ONBOARDING_PROTOCOL_VERSION);
 	expect(ONBOARDING_PROTOCOL_VERSION).toBe(94);
@@ -517,5 +532,5 @@ describe("tool response guards", () => {
 
 test("survey translations and separate Other text are pinned to v98", () => {
 	expect(SURVEY_TRANSLATIONS_PROTOCOL_VERSION).toBe(98);
-	expect(PROTOCOL_VERSION).toBe(98);
+	expect(PROTOCOL_VERSION).toBeGreaterThanOrEqual(SURVEY_TRANSLATIONS_PROTOCOL_VERSION);
 });
